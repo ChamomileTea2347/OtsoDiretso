@@ -237,9 +237,13 @@ export default function ChatbotPage() {
             <h2 className="text-3xl font-bold mb-3">About This Chatbot</h2>
 
             <p className="text-sm text-gray-700 leading-6 mb-6">
-              This AI chatbot was developed as part of a research project aimed at providing
+              This AI chatbot was developed as part of a research project focused on providing
               emotional support and conversational assistance to students. It is designed to
               offer a safe space for users to express their thoughts and receive supportive responses.
+              The chatbot serves as a virtual comanion that can interact with users through friendly
+              conversations while offering encouragement, reassurance, and emotional support. In addition
+              to casual conversation, the chatbot is designed to recognize emotional cues in user messages
+              and respond in a calm, supportive, and compassionate manner.
               <br /><br />
               <b>Purpose:</b><br />
               - Provide emotional support<br />
