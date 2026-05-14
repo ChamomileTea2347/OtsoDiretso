@@ -3,16 +3,13 @@
 # This module is responsible for detecting emotional distress
 # in user messages before they reach the LLM.
 #
-# Based on your thesis paper, the safety check evaluates messages
+# Based on the thesis paper, the safety check evaluates messages
 # for indicators of extreme emotional distress like severe sadness,
 # hopelessness, or self-harm expressions. If detected, the message
 # is flagged so the LLM responds with safe, non-directive,
 # emotionally supportive language instead of general responses.
 
-# Keywords and phrases associated with crisis or high distress
-# These are grouped by category for easier maintenance and expansion
-# Your CCW validators may want to review and expand this list later
-
+# Phrases — crisis level
 CRISIS_KEYWORDS = [
     # Direct suicide / self-harm phrases
     "i want to kill myself", "i wanna kill myself", "i'm going to kill myself",
@@ -62,8 +59,9 @@ CRISIS_KEYWORDS = [
     "i wish i was gon", "i wana disappear",
 ]
 
+# Phrases — moderate level
 MODERATE_KEYWORDS = [
-    # Hopelessness / emotional distress
+    # Hopelessness / emotional distress phrases
     "i feel hopeless", "nothing matters anymore", "i can't take this anymore",
     "i cant take this anymore", "i feel empty inside", "i feel trapped",
     "i feel broken", "i have no future", "i feel worthless", "i hate myself",
@@ -84,6 +82,78 @@ MODERATE_KEYWORDS = [
     "depresed", "hopless", "i cant breath", "i feel usless",
 ]
 
+# Single-word / short-form crisis keywords
+CRISIS_SINGLE_KEYWORDS = [
+    # Suicide / self-harm
+    "suicide", "suicidal", "selfharm", "self-harm",
+    "overdose", "overdosing", "cutting",
+    "cut", "bleeding", "hang", "hanging",
+    "die", "dead", "death", "kms",
+    "unalive", "goodbye", "farewell",
+
+    # Severe hopelessness
+    "hopeless", "worthless", "burden",
+    "useless", "empty", "numb",
+    "trapped", "broken",
+
+    # Internet slang / bypass
+    "kys", "kmself", "di3",
+    "d13", "d!e", "sucidal",
+    "su1cide", "ded",
+
+    # Dangerous emotional state
+    "ending", "goodbye",
+    "disappear", "vanish",
+    "destroyed", "doomed",
+
+    # Tagalog
+    "mamatay", "magpakamatay",
+    "papakamatay", "wakasan",
+    "sumuko", "maglaho",
+]
+
+# Single-word / short-form moderate distress keywords
+MODERATE_SINGLE_KEYWORDS = [
+    # Anxiety / stress
+    "anxious", "anxiety",
+    "stress", "stressed",
+    "panic", "panicking",
+    "worried", "nervous",
+    "afraid", "scared",
+
+    # Sadness / depression
+    "depressed", "depression",
+    "sad", "crying",
+    "lonely", "alone",
+    "helpless", "hopeless",
+    "tired", "drained",
+    "burnout", "exhausted",
+    "empty", "numb",
+    "broken",
+
+    # Emotional distress
+    "overwhelmed", "struggling",
+    "failing", "frustrated",
+    "disappointed", "stuck",
+    "unmotivated", "pressure",
+    "rough", "difficult",
+
+    # Gen Z / slang
+    "cooked", "spiraling",
+    "crashing", "losingit",
+    "burnedout",
+
+    # Sleep / energy
+    "insomnia", "sleepless",
+    "fatigue", "fatigued",
+
+    # Tagalog
+    "pagod", "malungkot",
+    "naiiyak", "takot",
+    "magisa", "nag-iisa",
+    "nahihirapan", "problemado",
+]
+
 
 def detect_risk_level(message: str) -> str:
     """
@@ -94,22 +164,31 @@ def detect_risk_level(message: str) -> str:
         "moderate" — message contains emotional distress language
         "safe"     — no distress indicators detected
 
-    Why three levels instead of just crisis/safe?
-    Having a moderate level lets the chatbot gradually increase
-    empathy without immediately escalating every mention of stress
-    or anxiety to a crisis response — which would feel unnatural
-    and potentially dismiss the user's feelings.
+    Priority order:
+        1. Crisis phrases (longest, most specific — checked first)
+        2. Crisis single words
+        3. Moderate phrases
+        4. Moderate single words
     """
-    # Convert to lowercase for case-insensitive matching
     message_lower = message.lower()
 
-    # Check crisis keywords first — highest priority
+    # Check crisis phrases first — highest priority
     for keyword in CRISIS_KEYWORDS:
         if keyword in message_lower:
             return "crisis"
 
-    # Check moderate keywords second
+    # Check crisis single words
+    for keyword in CRISIS_SINGLE_KEYWORDS:
+        if keyword in message_lower:
+            return "crisis"
+
+    # Check moderate phrases
     for keyword in MODERATE_KEYWORDS:
+        if keyword in message_lower:
+            return "moderate"
+
+    # Check moderate single words
+    for keyword in MODERATE_SINGLE_KEYWORDS:
         if keyword in message_lower:
             return "moderate"
 
@@ -126,29 +205,25 @@ def build_safe_prompt(message: str, risk_level: str) -> str:
     Blocking would leave the user without support at the moment
     they need it most. Instead, we guide the LLM to respond
     safely and empathetically while encouraging professional help.
-
-    Note: These system prompts will be used once the actual
-    LLaMA 3.1 8B model is integrated. For now they are prepared
-    and returned for future use.
     """
 
     if risk_level == "crisis":
-        system_prompt = """You are a compassionate emotional support chatbot for university students.
-        You are NOT a counselor, therapist, or medical professional and you do NOT diagnose anything.
-        The user may be in distress. Respond with warmth, validate their feelings, and gently
-        encourage them to reach out to a professional counselor or crisis hotline.
-        Do NOT give advice, diagnose, or provide solutions. Focus only on emotional validation."""
+        system_prompt = """You are a compassionate emotional support assistant
+        for university students. The user may be experiencing a crisis.
+        Respond with warmth, validate their feelings, and gently encourage
+        them to reach out to a counselor or crisis hotline.
+        Do NOT provide advice, instructions, or solutions.
+        Focus only on emotional validation and safety."""
 
     elif risk_level == "moderate":
-        system_prompt = """You are a compassionate emotional support chatbot for university students.
-        You are NOT a counselor, therapist, or medical professional and you do NOT diagnose anything.
-        The user is experiencing emotional distress. Respond with empathy, acknowledge their feelings,
-        and provide gentle non-directive support. Do not diagnose, prescribe, or give medical advice."""
+        system_prompt = """You are a compassionate emotional support assistant
+        for university students. The user is experiencing emotional distress.
+        Respond with empathy, acknowledge their feelings, and provide
+        gentle non-directive support. Do not diagnose or prescribe solutions."""
 
     else:
-        system_prompt = """You are a compassionate emotional support chatbot for university students.
-        You are NOT a counselor, therapist, or medical professional and you do NOT diagnose anything.
-        Listen actively, respond with empathy, and provide supportive non-directive responses.
-        Do not diagnose or give any medical or psychological advice."""
+        system_prompt = """You are a compassionate emotional support assistant
+        for university students. Listen actively, respond with empathy,
+        and provide supportive non-directive responses."""
 
     return f"{system_prompt}\n\nStudent: {message}"
