@@ -14,33 +14,74 @@
 # Your CCW validators may want to review and expand this list later
 
 CRISIS_KEYWORDS = [
-    # Self-harm indicators
-    "kill myself", "end my life", "want to die", "suicide",
-    "self harm", "self-harm", "hurt myself", "cut myself",
-    "overdose", "don't want to live", "no reason to live",
+    # Direct suicide / self-harm phrases
+    "i want to kill myself", "i wanna kill myself", "i'm going to kill myself",
+    "im going to kill myself", "im gonna kill myself", "i want to die",
+    "i wanna die", "i don't want to live anymore", "i dont want to live anymore",
+    "i don't wanna live anymore", "i dont wanna live anymore",
+    "i wish i was dead", "i want to end my life", "i want everything to end",
+    "i feel suicidal", "i'm suicidal", "im suicidal", "i can't go on anymore",
+    "i cant go on anymore", "i'm done with life", "im done with life",
+    "life is not worth living", "i hate being alive", "i should just die",
+    "i want to stop existing", "i'm ready to end it all", "im ready to end it all",
+    "i'm planning to kill myself", "im planning to kill myself",
+    "i want to hurt myself", "i want to self harm", "i want to self-harm",
+    "i cut myself", "i hurt myself on purpose", "i want to overdose",
+    "i want to jump off a building", "i want to hang myself",
+    "i want to stab myself", "i want to shoot myself", "i want to poison myself",
 
-    # Hopelessness indicators
-    "hopeless", "worthless", "no point", "give up",
-    "can't go on", "cannot go on", "nothing matters",
-    "no one cares", "better off without me",
+    # Immediate crisis / emergency signals
+    "goodbye everyone", "this is my last message", "i already wrote my note",
+    "i'm saying goodbye", "im saying goodbye", "i won't be here tomorrow",
+    "i wont be here tomorrow", "i already took pills", "i hurt myself badly",
+    "i'm bleeding", "im bleeding", "i'm about to do it", "im about to do it",
+    "i'm going to end my life tonight", "im going to end my life tonight",
+    "i have a suicide plan", "i have the pills ready", "i have a gun",
+    "i'm standing on the edge", "im standing on the edge",
+    "i'm ready to die", "im ready to die", "i cannot stay safe",
+    "i might hurt myself tonight", "i don't trust myself alone",
+    "i dont trust myself alone",
 
-    # Severe distress indicators
-    "can't take it anymore", "cannot take it anymore",
-    "breaking down", "falling apart", "losing my mind",
+    # Abbreviations / slang / online terms
+    "kms", "wanna kms", "imma kms", "unalive myself", "delete myself",
+    "finna end it", "i quit life", "im checking out", "i'm checking out",
+    "cya forever", "goodbye yall", "final message", "this my last post",
+    "sewer slide", "self delete", "off myself", "end myself",
+    "disappear forever", "leave this world", "sleep forever",
+    "final sleep", "no more tomorrow", "no more me", "lights out for me",
+    "game over for me", "might end it tonight", "not surviving this",
+    "this is the end",
+
+    # Censored / avoiding detection
+    "k1ll myself", "ki11 myself", "d!e", "d13", "sleeping forever sounds nice",
+
+    # Misspellings / typos
+    "i wanna kil myself", "i want to di3", "wanna dye", "kmself", "su1cide",
+    "sucidal", "i hatemyself", "i dont wana live", "im tierd of life",
+    "no reson to live", "i wanna end myslef", "im better off ded",
+    "i wish i was gon", "i wana disappear",
 ]
 
-# Moderate distress keywords — chatbot responds with extra empathy
-# but does not trigger the full crisis protocol
 MODERATE_KEYWORDS = [
-    "anxious", "anxiety", "depressed", "depression",
-    "stressed", "stress", "overwhelmed", "exhausted",
-    "lonely", "alone", "sad", "crying", "helpless",
-    "scared", "afraid", "worried", "nervous", "panic",
-    "can't sleep", "cannot sleep", "no motivation",
-    "failing", "disappointed", "frustrated",
-    "rough", "procrastinat", "deadline", "pressure",
-    "burnout", "burn out", "tired", "drained", "stuck",
-    "unmotivated", "behind", "struggling", "difficult",
+    # Hopelessness / emotional distress
+    "i feel hopeless", "nothing matters anymore", "i can't take this anymore",
+    "i cant take this anymore", "i feel empty inside", "i feel trapped",
+    "i feel broken", "i have no future", "i feel worthless", "i hate myself",
+    "i'm a burden", "im a burden", "nobody cares about me", "i feel alone",
+    "i don't belong here", "i dont belong here", "i can't handle life anymore",
+    "i cant handle life anymore", "i'm emotionally exhausted",
+    "im emotionally exhausted", "i want the pain to stop", "i feel numb",
+    "i feel like giving up", "i'm tired of everything", "im tired of everything",
+    "i'm suffering too much", "im suffering too much",
+
+    # Slang / online distress terms
+    "lowkey wanna die", "id rather be dead", "i'd rather be dead",
+    "im done fr", "i'm done fr", "lowkey suicidal", "highkey suicidal",
+    "deadass wanna disappear", "im cooked", "cant do this no more",
+    "no point anymore", "gg", "im tired boss", "i'm tired boss",
+
+    # Misspellings related to moderate distress
+    "depresed", "hopless", "i cant breath", "i feel usless",
 ]
 
 
