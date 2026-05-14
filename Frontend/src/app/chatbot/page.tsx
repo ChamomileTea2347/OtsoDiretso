@@ -183,26 +183,30 @@ export default function ChatbotPage() {
           </div>
         )}
 
-        {/* HEADER */}
-        <div className="flex flex-col items-center flex-shrink-0 py-4">
-          <img
-            src="/capyAvatar.gif"
-            className="h-24 w-24 rounded-full mb-2"
-          />
-          
-          <h1 className="text-2xl font-bold text-black">
-            CapyBuddy
-          </h1>
+        {/* SCROLLABLE CHAT AREA WITH HEADER */}
+        <div className="flex-1 overflow-y-auto px-4 py-2">
 
-          <p className="text-sm text-gray-700">
-            A safe space to talk and be heard.
-          </p>
-          <hr className="mt-4 w-full border-gray-300" />
-        </div>
+          {/* HEADER */}
+          <div className="flex flex-col items-center pt-0 pb-3 -mt-2">
+            <img
+              src="/capyAvatar.gif"
+              className="h-20 w-20 rounded-full mb-1"
+            />
 
-        {/* CHAT */}
-        <div className="flex-1 min-h-0 overflow-y-auto px-4 py-2">
+            <h1 className="text-2xl font-bold text-black leading-tight">
+              CapyBuddy
+            </h1>
+
+            <p className="text-sm text-gray-700">
+              A safe space to talk and be heard.
+            </p>
+
+            <hr className="mt-3 w-full border-gray-300" />
+          </div>
+
+          {/* CHAT */}
           <ChatWindow messages={messages} />
+
         </div>
 
         {/* INPUT */}

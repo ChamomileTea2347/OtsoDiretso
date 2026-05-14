@@ -10,7 +10,7 @@ export default function ChatBubble({ message, sender = "bot" }: ChatBubbleProps)
   return (
     <div className={`flex items-start ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-xs p-2 space-y-2 rounded ${
+        className={`max-w-xs p-2 space-y-2 rounded text-xl ${
           isUser ? "bg-blue-500 text-black" : "bg-white text-black"
         }`}
       >
