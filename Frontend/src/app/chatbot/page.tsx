@@ -335,28 +335,110 @@ export default function ChatbotPage() {
             {/* HOTLINES LIST */}
             <div className="space-y-4 text-sm">
 
-              <div className="p-4 border rounded-lg">
-                <p className="font-semibold">National Mental Health Crisis Hotline (PH)</p>
-                <p>📞 1553</p>
-                <p className="text-gray-600">Available 24/7 for mental health emergencies</p>
+              {/* SECTION TITLE */}
+              <div className="text-lg font-bold text-gray-800 mt-6">
+                Saint Louis University Helplines
               </div>
 
               <div className="p-4 border rounded-lg">
-                <p className="font-semibold">NCMH Crisis Hotline (Mobile)</p>
-                <p>📞 0966-351-4518</p>
-                <p className="text-gray-600">📞 0917-899-8727</p>
+                <p className="font-semibold">Saint Louis University</p>
+                <p>📞 (+6374) 442.3043</p>
+                <p>📞 443.2001</p>
+                <p>📞 444.8246 to 48</p>
               </div>
 
               <div className="p-4 border rounded-lg">
-                <p className="font-semibold">Emergency Services (Philippines)</p>
+                <p className="font-semibold">SLU Center for Counseling and Wellness</p>
+                <p>📞 Main Campus (074) 442-3043/ 443-2001 Loc. 222; 0926-847-2959</p>
+                <p>📞 Maryheights Campus (074) 442-6321; 0926-847-2961</p>
+              </div>
+
+              {/* SECTION TITLE */}
+              <div className="text-lg font-bold text-gray-800 mt-6">
+                Baguio City Health Services Office Helplines
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Mental Health and Wellness Unit (Baguio)</p>
+                <p>📞 (0919) 069 631</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Bonjing e-Inquiry (Baguio)</p>
+                <p>📞 (0985) 251 5968</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Baguio City Emergency Medical Service</p>
+                <p>📞 (0905) 5551911</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Department of Health-CAR Mental Health Unit</p>
+                <p>📞 (0938) 757 6458</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Smart City Command Center</p>
                 <p>📞 911</p>
-                <p className="text-gray-600">For immediate life-threatening emergencies</p>
               </div>
 
               <div className="p-4 border rounded-lg">
-                <p className="font-semibold">SLU Guidance Office (Sample)</p>
-                <p>📞 (Insert school hotline here)</p>
-                <p className="text-gray-600">For student counseling and support</p>
+                <p className="font-semibold">Baguio City Police</p>
+                <p>📞 (074) 661-1471</p>
+                <p>📞 (0998) 598-7739</p>
+                <p>📞 (0917) 575-8993</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Philippine Mental Health Association Cordillera Chapter, Inc. Helplines</p>
+                <p>📞 (0917) 517 2083</p>
+                <p>📞 (0943) 708 4672</p>
+              </div>
+
+            {/* SECTION TITLE */}
+              <div className="text-lg font-bold text-gray-800 mt-6">
+                Hospital Helplines
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Mental Health Crisis Hotline Baguio General Hospital and Medical Center</p>
+                <p>📞 (0917) 701-2647</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Baguio General Hospital Operation Center Psychiatry Department</p>
+                <p>📞 (074) 661 7910</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Baguio City Police</p>
+                <p>📞 (074) 661-1471</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Benguet General Hospital Psychiatry Unit National Center of Mental Health</p>
+                <p>24 Hours hotline</p>
+                <p>📞 1553 (Nationwide landline toll-free)</p>
+                <p>📞 1800-1888-1553</p>
+                <p>📞 (0919)057-1553 (Smart/TNT)</p>
+                <p>📞 (0917) 899-8727 (Globe/TM)</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Hopeline PH</p>
+                <p>📞 (0917) 558-4673 (Globe)</p>
+                <p>📞 (0918) 873-4673 (Smart)</p>
+                <p>📞 8804-4673 (PLDT)</p>
+                <p>📞 2919</p>
+                <p>📞 (toll-free for Globe and Tm)</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">In Touch: Crisis Line</p>
+                <p>📞 (0919) 056-0709 (Smart)</p>
+                <p>📞 (0922) 893-8944(Smart)</p>
+                <p>📞 (0917) 800-1123 (Globe)</p>
               </div>
 
             </div>
