@@ -234,77 +234,119 @@ export default function ChatbotPage() {
       {/* ABOUT US MODAL */}
       {aboutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-          
+
           <div className="w-full max-w-5xl rounded-2xl bg-white p-8 shadow-xl relative overflow-y-auto max-h-[90vh]">
 
             {/* HEADER */}
-            <h2 className="text-3xl font-bold mb-3">About This Chatbot</h2>
+            <h2 className="text-3xl font-bold mb-4">About This Project</h2>
 
-            <p className="text-sm text-gray-700 leading-6 mb-6">
-              This AI chatbot was developed as part of a research project aimed at providing
-              emotional support and conversational assistance to students. It is designed to
-              offer a safe space for users to express their thoughts and receive supportive responses.
-              <br /><br />
-              <b>Purpose:</b><br />
-              - Provide emotional support<br />
-              - Encourage self-reflection<br />
-              - Assist students in managing stress and concerns<br /><br />
+            <div className="text-sm text-gray-700 leading-6 space-y-4">
 
-              <b>Note:</b> This system is not a replacement for professional mental health care.
+              <p>
+                This AI-powered chatbot, <b>CapyBuddy</b>, was developed as part of a research study
+                aimed at providing accessible, stigma-free, and empathetic emotional support for
+                university students. The system is designed as a digital mental health support tool
+                that allows users to express thoughts and emotions in a safe conversational space
+                and receive supportive, non-judgmental responses.
+              </p>
+
+              <p>
+                The study is grounded in the growing concern over student mental health, particularly
+                in the Philippine context where stigma, limited access to counseling services,
+                and emotional distress among students remain significant issues. With increasing
+                levels of stress, anxiety, depression, and suicidal ideation reported among
+                university students, this project explores how Artificial Intelligence can serve
+                as a supplementary support system alongside traditional mental health services.
+              </p>
+
+              <p>
+                CapyBuddy leverages a fine-tuned Large Language Model enhanced with empathy-guided
+                response generation to simulate supportive conversations. It is designed to
+                acknowledge emotional states, encourage self-reflection, and provide non-directive
+                emotional validation without offering medical diagnosis, therapy, or crisis intervention.
+              </p>
+
+              <p>
+                This system is strictly a non-clinical tool. It is not a replacement for licensed
+                mental health professionals, counseling services, or emergency intervention systems.
+                Users experiencing severe distress are encouraged to seek professional help through
+                appropriate hotlines or mental health services.
+              </p>
+
+              <p>
+                The evaluation of this system focuses on automatic text-based metrics such as
+                diversity, word-overlap, and embedding similarity to assess response quality,
+                empathy, and variability.
+              </p>
+
+            </div>
+
+            {/* PURPOSE */}
+            <h3 className="text-xl font-semibold mt-6 mb-2">Project Objectives</h3>
+
+            <ul className="list-disc ml-5 text-sm text-gray-700 space-y-1">
+              <li>Develop a dataset focused on student emotional distress conversations</li>
+              <li>Identify and fine-tune an optimal Large Language Model for empathetic responses</li>
+              <li>Integrate empathy-aligned conversational behavior into the chatbot system</li>
+              <li>Evaluate responses using automatic metrics such as diversity and embedding similarity</li>
+              <li>Deploy a web-based emotional support chatbot for university students</li>
+            </ul>
+
+            {/* DISCLAIMER */}
+            <h3 className="text-xl font-semibold mt-6 mb-2">Important Note</h3>
+
+            <p className="text-sm text-gray-700 leading-6">
+              CapyBuddy is designed as a supportive conversational tool only. It does not diagnose,
+              treat, or prevent mental health conditions. It is intended to complement, not replace,
+              professional counseling and mental health services.
             </p>
 
             {/* TEAM SECTION */}
-            <h3 className="text-xl font-semibold mb-4">Developers / Team Members</h3>
+            <h3 className="text-xl font-semibold mt-6 mb-4">Developers / Team Members</h3>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
 
-              {/* Member 1 */}
+              {/* keep your existing members exactly as-is */}
               <div className="flex flex-col items-center">
-                <img src="/members\AuBumanglag.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
+                <img src="/members/AuBumanglag.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Au Bumanglag</p>
               </div>
 
-              {/* Member 2 */}
               <div className="flex flex-col items-center">
                 <img src="/members/TomieDeLeon.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Tomie De Leon</p>
               </div>
 
-              {/* Member 3 */}
               <div className="flex flex-col items-center">
                 <img src="/members/RamilGrabador.jpg" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Ramil Grabador</p>
               </div>
 
-              {/* Member 4 */}
               <div className="flex flex-col items-center">
                 <img src="/members/JulianneGuiao.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Julianne Mikaela Guiao</p>
               </div>
 
-              {/* Member 5 */}
               <div className="flex flex-col items-center">
                 <img src="/members/AdrianOrdonio.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Adrian James Ordonio</p>
               </div>
 
-              {/* Member 6 */}
               <div className="flex flex-col items-center">
                 <img src="/members/AbigailPalacay.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Abigail Palacay</p>
               </div>
 
-              {/* Member 7 */}
               <div className="flex flex-col items-center">
                 <img src="/members/BryanPascual.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Jermaine Bryan Pascual</p>
               </div>
 
-              {/* Member 8 */}
               <div className="flex flex-col items-center">
                 <img src="/members/JMSollorin.jpg" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">John Michael Sollorin</p>
               </div>
+
             </div>
 
             {/* CLOSE BUTTON */}

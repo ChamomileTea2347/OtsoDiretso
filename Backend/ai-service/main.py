@@ -16,23 +16,31 @@ app = FastAPI()
 def health():
     return {"status": "AI service working"}
 
+HOTLINES_TEXT = """
+    If you are in immediate danger, please contact:
+
+    National Crisis Hotline:
+    - 1553 (Nationwide)
+    - 0917-899-8727 (Globe/TM)
+    - 0966-351-4518 (Smart)
+
+    You are not alone. Please reach out for help immediately.
+    """
+
+
 
 class Message(BaseModel):
     message: str
     history: list = []
 
-
 @app.post("/chat")
 def chat(data: Message):
-    # Step 1 — Detect risk level internally
     risk_level = detect_risk_level(data.message)
     print(f"[SAFETY] Message: '{data.message}' | Risk Level: {risk_level}")
 
-    # Step 2 — Build safe prompt based on risk level
     safe_prompt = build_safe_prompt(data.message, risk_level)
     system_prompt = safe_prompt.replace(f"\n\nStudent: {data.message}", "")
 
-    # Step 3 — Send to Colab model and return reply
     try:
         response = httpx.post(
             f"{COLAB_API_URL}/chat",
@@ -45,4 +53,11 @@ def chat(data: Message):
     except httpx.HTTPError as e:
         raise HTTPException(status_code=502, detail=f"Model error: {str(e)}")
 
-    return {"reply": reply}
+    # ✅ ADD HOTLINES ONLY IF CRISIS
+    if risk_level == "crisis":
+        reply = f"{reply}\n\n{HOTLINES_TEXT}"
+
+    return {
+        "reply": reply,
+        "risk_level": risk_level   # optional but VERY useful for debugging frontend
+    }
