@@ -34,6 +34,60 @@ export default function ChatbotPage() {
     }
   }, []);
 
+  const HOTLINES_TEXT = `
+Just in case you need immediate support, here are some emergency hotlines you can contact anytime:
+━━━━━━━━━━━━━━━━━━━━
+🆘 EMERGENCY SUPPORT RESOURCES
+
+If you are in immediate danger or feeling unsafe, please contact the following services:
+━━━━━━━━━━━━━━━━━━━━
+🏫 SAINT LOUIS UNIVERSITY
+
+📍 Main Hotlines:
+• (+6374) 442-3043
+• 443-2001
+• 444-8246 to 48
+
+📍 Counseling & Wellness Center:
+• Main Campus: (074) 442-3043 / 443-2001 Loc. 222 / 0926-847-2959
+• Maryheights Campus: (074) 442-6321 / 0926-847-2961
+
+━━━━━━━━━━━━━━━━━━━━
+🏥 BAGUIO CITY MENTAL HEALTH SERVICES
+
+• Mental Health Unit: (0919) 069 631
+• Bonjing e-Inquiry: (0985) 251 5968
+• Emergency Medical Service: (0905) 555-1911
+• DOH-CAR Mental Health Unit: (0938) 757 6458
+• Emergency Hotline: 911
+
+━━━━━━━━━━━━━━━━━━━━
+🏥 NATIONAL CRISIS HOTLINES
+
+• National Center for Mental Health (NCMH):
+  1553 (toll-free)
+  (0919) 057-1553
+  (0917) 899-8727
+
+• Baguio General Hospital Crisis Line:
+  (0917) 701-2647
+
+━━━━━━━━━━━━━━━━━━━━
+📞 OTHER SUPPORT LINES
+
+• Hopeline PH:
+  (0917) 558-4673
+  (0918) 873-4673
+  8804-4673
+
+• In Touch Crisis Line:
+  (0919) 056-0709
+  (0922) 893-8944
+  (0917) 800-1123
+
+━━━━━━━━━━━━━━━━━━━━
+💛 You are not alone. Help is available. Support is always here for you.
+`;
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -69,12 +123,28 @@ export default function ChatbotPage() {
         }
       );
 
+    
       const data = await res.json();
 
+      // always push bot reply first
       setMessages((prev) => [
         ...prev,
-        { text: data.reply || "No response from server", sender: "bot" },
+        { text: data.reply ?? "No response", sender: "bot" },
       ]);
+
+      // FORCE SAFE CHECK
+      const riskLevel = data?.risk_level;
+
+      console.log("RISK LEVEL:", riskLevel);
+
+      if (riskLevel === "crisis") {
+      
+        setMessages((prev) => [
+          ...prev,
+          { text: HOTLINES_TEXT, sender: "bot" }
+        ]);
+      }
+
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -88,7 +158,7 @@ export default function ChatbotPage() {
 
       {/* SIDEBAR */}
       <div
-        className={`bg-white shadow-lg transition-all duration-300 overflow-hidden
+        className={`bg-[#faf3dd] shadow-lg transition-all duration-300 overflow-hidden
         ${menuOpen ? "w-64" : "w-0"}`}
       >
         {menuOpen && (
@@ -102,7 +172,7 @@ export default function ChatbotPage() {
 
             <button
               onClick={() => setHotlinesOpen(true)}
-              className="text-left hover:underline text-black"
+              className="text-left hover:underline text-black text-xl"
             >
               Emergency Hotlines
             </button>
@@ -110,14 +180,14 @@ export default function ChatbotPage() {
             {/* ABOUT US MODAL TRIGGER */}
             <button
               onClick={() => setAboutOpen(true)}
-              className="text-left hover:underline text-black"
+              className="text-left hover:underline text-black text-xl"
             >
               About Us
             </button>
 
             <button
               onClick={() => router.push("/history")}
-              className="text-left hover:underline text-black"
+              className="text-left hover:underline text-black text-xl"
             >
               Chat History
             </button>
@@ -127,7 +197,7 @@ export default function ChatbotPage() {
                 localStorage.removeItem("token");
                 router.push("/");
               }}
-              className="text-left text-red-600 hover:underline mt-auto"
+              className="text-left text-red-600 hover:underline mt-auto text-xl"
             >
               Log Out
             </button>
@@ -154,10 +224,10 @@ export default function ChatbotPage() {
         {/* DISCLAIMER */}
         {!acceptedDisclaimer && (
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 px-4">
-            <div className="w-full max-w-md rounded-2xl border border-gray-300 bg-white p-6 shadow-2xl">
+            <div className="w-full max-w-2xl rounded-2xl border border-gray-300 bg-white p-6 shadow-2xl">
               <h2 className="text-xl font-bold text-black">Disclaimer</h2>
 
-              <p className="mt-3 text-sm leading-6 text-gray-800">
+              <p className="mt-5 text-lg leading-8 text-gray-800">
                 This chatbot is intended to provide comfort, emotional support, and general
                 encouragement for students. It is not a replacement for a licensed therapist,
                 counselor, psychologist, psychiatrist, or any other mental health professional.
@@ -183,26 +253,30 @@ export default function ChatbotPage() {
           </div>
         )}
 
-        {/* HEADER */}
-        <div className="flex flex-col items-center flex-shrink-0 py-4">
-          <img
-            src="/capyAvatar.gif"
-            className="h-24 w-24 rounded-full mb-2"
-          />
-          
-          <h1 className="text-2xl font-bold text-black">
-            CapyBuddy
-          </h1>
+        {/* SCROLLABLE CHAT AREA WITH HEADER */}
+        <div className="flex-1 overflow-y-auto px-4 py-2">
 
-          <p className="text-sm text-gray-700">
-            A safe space to talk and be heard.
-          </p>
-          <hr className="mt-4 w-full border-gray-300" />
-        </div>
+          {/* HEADER */}
+          <div className="flex flex-col items-center pt-0 pb-3 -mt-2">
+            <img
+              src="/capyAvatar.gif"
+              className="h-20 w-20 rounded-full mb-1"
+            />
 
-        {/* CHAT */}
-        <div className="flex-1 min-h-0 overflow-y-auto px-4 py-2">
+            <h1 className="text-2xl font-bold text-black leading-tight">
+              CapyBuddy
+            </h1>
+
+            <p className="text-sm text-gray-700">
+              A safe space to talk and be heard.
+            </p>
+
+            <hr className="mt-3 w-full border-gray-300" />
+          </div>
+
+          {/* CHAT */}
           <ChatWindow messages={messages} />
+
         </div>
 
         {/* INPUT */}
@@ -230,77 +304,119 @@ export default function ChatbotPage() {
       {/* ABOUT US MODAL */}
       {aboutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-          
+
           <div className="w-full max-w-5xl rounded-2xl bg-white p-8 shadow-xl relative overflow-y-auto max-h-[90vh]">
 
             {/* HEADER */}
-            <h2 className="text-3xl font-bold mb-3">About This Chatbot</h2>
+            <h2 className="text-3xl font-bold mb-4">About This Project</h2>
 
-            <p className="text-sm text-gray-700 leading-6 mb-6">
-              This AI chatbot was developed as part of a research project aimed at providing
-              emotional support and conversational assistance to students. It is designed to
-              offer a safe space for users to express their thoughts and receive supportive responses.
-              <br /><br />
-              <b>Purpose:</b><br />
-              - Provide emotional support<br />
-              - Encourage self-reflection<br />
-              - Assist students in managing stress and concerns<br /><br />
+            <div className="text-lg text-gray-700 leading-8 space-y-5">
 
-              <b>Note:</b> This system is not a replacement for professional mental health care.
+              <p>
+                This AI-powered chatbot, <b>CapyBuddy</b>, was developed as part of a research study
+                aimed at providing accessible, stigma-free, and empathetic emotional support for
+                university students. The system is designed as a digital mental health support tool
+                that allows users to express thoughts and emotions in a safe conversational space
+                and receive supportive, non-judgmental responses.
+              </p>
+
+              <p>
+                The study is grounded in the growing concern over student mental health, particularly
+                in the Philippine context where stigma, limited access to counseling services,
+                and emotional distress among students remain significant issues. With increasing
+                levels of stress, anxiety, depression, and suicidal ideation reported among
+                university students, this project explores how Artificial Intelligence can serve
+                as a supplementary support system alongside traditional mental health services.
+              </p>
+
+              <p>
+                CapyBuddy leverages a fine-tuned Large Language Model enhanced with empathy-guided
+                response generation to simulate supportive conversations. It is designed to
+                acknowledge emotional states, encourage self-reflection, and provide non-directive
+                emotional validation without offering medical diagnosis, therapy, or crisis intervention.
+              </p>
+
+              <p>
+                This system is strictly a non-clinical tool. It is not a replacement for licensed
+                mental health professionals, counseling services, or emergency intervention systems.
+                Users experiencing severe distress are encouraged to seek professional help through
+                appropriate hotlines or mental health services.
+              </p>
+
+              <p>
+                The evaluation of this system focuses on automatic text-based metrics such as
+                diversity, word-overlap, and embedding similarity to assess response quality,
+                empathy, and variability.
+              </p>
+
+            </div>
+
+            {/* PURPOSE */}
+            <h3 className="text-xl font-semibold mt-6 mb-2">Project Objectives</h3>
+
+            <ul className="list-disc ml-6 text-lg text-gray-700 space-y-3">
+              <li>Develop a dataset focused on student emotional distress conversations</li>
+              <li>Identify and fine-tune an optimal Large Language Model for empathetic responses</li>
+              <li>Integrate empathy-aligned conversational behavior into the chatbot system</li>
+              <li>Evaluate responses using automatic metrics such as diversity and embedding similarity</li>
+              <li>Deploy a web-based emotional support chatbot for university students</li>
+            </ul>
+
+            {/* DISCLAIMER */}
+            <h3 className="text-xl font-semibold mt-6 mb-2">Important Note</h3>
+
+            <p className="text-sm text-gray-700 leading-6">
+              CapyBuddy is designed as a supportive conversational tool only. It does not diagnose,
+              treat, or prevent mental health conditions. It is intended to complement, not replace,
+              professional counseling and mental health services.
             </p>
 
             {/* TEAM SECTION */}
-            <h3 className="text-xl font-semibold mb-4">Developers / Team Members</h3>
+            <h3 className="text-xl font-semibold mt-6 mb-4">Developers / Team Members</h3>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
 
-              {/* Member 1 */}
+              {/* keep your existing members exactly as-is */}
               <div className="flex flex-col items-center">
-                <img src="/members\AuBumanglag.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
+                <img src="/members/AuBumanglag.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Au Bumanglag</p>
               </div>
 
-              {/* Member 2 */}
               <div className="flex flex-col items-center">
                 <img src="/members/TomieDeLeon.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Tomie De Leon</p>
               </div>
 
-              {/* Member 3 */}
               <div className="flex flex-col items-center">
                 <img src="/members/RamilGrabador.jpg" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Ramil Grabador</p>
               </div>
 
-              {/* Member 4 */}
               <div className="flex flex-col items-center">
                 <img src="/members/JulianneGuiao.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Julianne Mikaela Guiao</p>
               </div>
 
-              {/* Member 5 */}
               <div className="flex flex-col items-center">
                 <img src="/members/AdrianOrdonio.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Adrian James Ordonio</p>
               </div>
 
-              {/* Member 6 */}
               <div className="flex flex-col items-center">
                 <img src="/members/AbigailPalacay.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Abigail Palacay</p>
               </div>
 
-              {/* Member 7 */}
               <div className="flex flex-col items-center">
                 <img src="/members/BryanPascual.png" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">Jermaine Bryan Pascual</p>
               </div>
 
-              {/* Member 8 */}
               <div className="flex flex-col items-center">
                 <img src="/members/JMSollorin.jpg" className="w-24 h-24 rounded-full object-cover bg-gray-200" />
                 <p className="mt-2 text-sm">John Michael Sollorin</p>
               </div>
+
             </div>
 
             {/* CLOSE BUTTON */}
@@ -329,30 +445,112 @@ export default function ChatbotPage() {
             </p>
 
             {/* HOTLINES LIST */}
-            <div className="space-y-4 text-sm">
+            <div className="space-y-5 text-lg">
 
-              <div className="p-4 border rounded-lg">
-                <p className="font-semibold">National Mental Health Crisis Hotline (PH)</p>
-                <p>📞 1553</p>
-                <p className="text-gray-600">Available 24/7 for mental health emergencies</p>
+              {/* SECTION TITLE */}
+              <div className="text-lg font-bold text-gray-800 mt-6">
+                Saint Louis University Helplines
               </div>
 
               <div className="p-4 border rounded-lg">
-                <p className="font-semibold">NCMH Crisis Hotline (Mobile)</p>
-                <p>📞 0966-351-4518</p>
-                <p className="text-gray-600">📞 0917-899-8727</p>
+                <p className="font-semibold">Saint Louis University</p>
+                <p>📞 (+6374) 442.3043</p>
+                <p>📞 443.2001</p>
+                <p>📞 444.8246 to 48</p>
               </div>
 
               <div className="p-4 border rounded-lg">
-                <p className="font-semibold">Emergency Services (Philippines)</p>
+                <p className="font-semibold">SLU Center for Counseling and Wellness</p>
+                <p>📞 Main Campus (074) 442-3043/ 443-2001 Loc. 222; 0926-847-2959</p>
+                <p>📞 Maryheights Campus (074) 442-6321; 0926-847-2961</p>
+              </div>
+
+              {/* SECTION TITLE */}
+              <div className="text-lg font-bold text-gray-800 mt-6">
+                Baguio City Health Services Office Helplines
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Mental Health and Wellness Unit (Baguio)</p>
+                <p>📞 (0919) 069 631</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Bonjing e-Inquiry (Baguio)</p>
+                <p>📞 (0985) 251 5968</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Baguio City Emergency Medical Service</p>
+                <p>📞 (0905) 5551911</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Department of Health-CAR Mental Health Unit</p>
+                <p>📞 (0938) 757 6458</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Smart City Command Center</p>
                 <p>📞 911</p>
-                <p className="text-gray-600">For immediate life-threatening emergencies</p>
               </div>
 
               <div className="p-4 border rounded-lg">
-                <p className="font-semibold">SLU Guidance Office (Sample)</p>
-                <p>📞 (Insert school hotline here)</p>
-                <p className="text-gray-600">For student counseling and support</p>
+                <p className="font-semibold">Baguio City Police</p>
+                <p>📞 (074) 661-1471</p>
+                <p>📞 (0998) 598-7739</p>
+                <p>📞 (0917) 575-8993</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Philippine Mental Health Association Cordillera Chapter, Inc. Helplines</p>
+                <p>📞 (0917) 517 2083</p>
+                <p>📞 (0943) 708 4672</p>
+              </div>
+
+            {/* SECTION TITLE */}
+              <div className="text-lg font-bold text-gray-800 mt-6">
+                Hospital Helplines
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Mental Health Crisis Hotline Baguio General Hospital and Medical Center</p>
+                <p>📞 (0917) 701-2647</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Baguio General Hospital Operation Center Psychiatry Department</p>
+                <p>📞 (074) 661 7910</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Baguio City Police</p>
+                <p>📞 (074) 661-1471</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Benguet General Hospital Psychiatry Unit National Center of Mental Health</p>
+                <p>24 Hours hotline</p>
+                <p>📞 1553 (Nationwide landline toll-free)</p>
+                <p>📞 1800-1888-1553</p>
+                <p>📞 (0919)057-1553 (Smart/TNT)</p>
+                <p>📞 (0917) 899-8727 (Globe/TM)</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">Hopeline PH</p>
+                <p>📞 (0917) 558-4673 (Globe)</p>
+                <p>📞 (0918) 873-4673 (Smart)</p>
+                <p>📞 8804-4673 (PLDT)</p>
+                <p>📞 2919</p>
+                <p>📞 (toll-free for Globe and Tm)</p>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <p className="font-semibold">In Touch: Crisis Line</p>
+                <p>📞 (0919) 056-0709 (Smart)</p>
+                <p>📞 (0922) 893-8944(Smart)</p>
+                <p>📞 (0917) 800-1123 (Globe)</p>
               </div>
 
             </div>
