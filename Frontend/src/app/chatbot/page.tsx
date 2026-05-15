@@ -34,6 +34,60 @@ export default function ChatbotPage() {
     }
   }, []);
 
+  const HOTLINES_TEXT = `
+Just in case you need immediate support, here are some emergency hotlines you can contact anytime:
+━━━━━━━━━━━━━━━━━━━━
+🆘 EMERGENCY SUPPORT RESOURCES
+
+If you are in immediate danger or feeling unsafe, please contact the following services:
+━━━━━━━━━━━━━━━━━━━━
+🏫 SAINT LOUIS UNIVERSITY
+
+📍 Main Hotlines:
+• (+6374) 442-3043
+• 443-2001
+• 444-8246 to 48
+
+📍 Counseling & Wellness Center:
+• Main Campus: (074) 442-3043 / 443-2001 Loc. 222 / 0926-847-2959
+• Maryheights Campus: (074) 442-6321 / 0926-847-2961
+
+━━━━━━━━━━━━━━━━━━━━
+🏥 BAGUIO CITY MENTAL HEALTH SERVICES
+
+• Mental Health Unit: (0919) 069 631
+• Bonjing e-Inquiry: (0985) 251 5968
+• Emergency Medical Service: (0905) 555-1911
+• DOH-CAR Mental Health Unit: (0938) 757 6458
+• Emergency Hotline: 911
+
+━━━━━━━━━━━━━━━━━━━━
+🏥 NATIONAL CRISIS HOTLINES
+
+• National Center for Mental Health (NCMH):
+  1553 (toll-free)
+  (0919) 057-1553
+  (0917) 899-8727
+
+• Baguio General Hospital Crisis Line:
+  (0917) 701-2647
+
+━━━━━━━━━━━━━━━━━━━━
+📞 OTHER SUPPORT LINES
+
+• Hopeline PH:
+  (0917) 558-4673
+  (0918) 873-4673
+  8804-4673
+
+• In Touch Crisis Line:
+  (0919) 056-0709
+  (0922) 893-8944
+  (0917) 800-1123
+
+━━━━━━━━━━━━━━━━━━━━
+💛 You are not alone. Help is available. Support is always here for you.
+`;
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -69,12 +123,28 @@ export default function ChatbotPage() {
         }
       );
 
+    
       const data = await res.json();
 
+      // always push bot reply first
       setMessages((prev) => [
         ...prev,
-        { text: data.reply || "No response from server", sender: "bot" },
+        { text: data.reply ?? "No response", sender: "bot" },
       ]);
+
+      // FORCE SAFE CHECK
+      const riskLevel = data?.risk_level;
+
+      console.log("RISK LEVEL:", riskLevel);
+
+      if (riskLevel === "crisis") {
+      
+        setMessages((prev) => [
+          ...prev,
+          { text: HOTLINES_TEXT, sender: "bot" }
+        ]);
+      }
+
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -102,7 +172,7 @@ export default function ChatbotPage() {
 
             <button
               onClick={() => setHotlinesOpen(true)}
-              className="text-left hover:underline text-black"
+              className="text-left hover:underline text-black text-xl"
             >
               Emergency Hotlines
             </button>
@@ -110,14 +180,14 @@ export default function ChatbotPage() {
             {/* ABOUT US MODAL TRIGGER */}
             <button
               onClick={() => setAboutOpen(true)}
-              className="text-left hover:underline text-black"
+              className="text-left hover:underline text-black text-xl"
             >
               About Us
             </button>
 
             <button
               onClick={() => router.push("/history")}
-              className="text-left hover:underline text-black"
+              className="text-left hover:underline text-black text-xl"
             >
               Chat History
             </button>
@@ -127,7 +197,7 @@ export default function ChatbotPage() {
                 localStorage.removeItem("token");
                 router.push("/");
               }}
-              className="text-left text-red-600 hover:underline mt-auto"
+              className="text-left text-red-600 hover:underline mt-auto text-xl"
             >
               Log Out
             </button>
@@ -154,10 +224,10 @@ export default function ChatbotPage() {
         {/* DISCLAIMER */}
         {!acceptedDisclaimer && (
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 px-4">
-            <div className="w-full max-w-md rounded-2xl border border-gray-300 bg-white p-6 shadow-2xl">
+            <div className="w-full max-w-2xl rounded-2xl border border-gray-300 bg-white p-6 shadow-2xl">
               <h2 className="text-xl font-bold text-black">Disclaimer</h2>
 
-              <p className="mt-3 text-sm leading-6 text-gray-800">
+              <p className="mt-5 text-lg leading-8 text-gray-800">
                 This chatbot is intended to provide comfort, emotional support, and general
                 encouragement for students. It is not a replacement for a licensed therapist,
                 counselor, psychologist, psychiatrist, or any other mental health professional.
@@ -240,7 +310,7 @@ export default function ChatbotPage() {
             {/* HEADER */}
             <h2 className="text-3xl font-bold mb-4">About This Project</h2>
 
-            <div className="text-sm text-gray-700 leading-6 space-y-4">
+            <div className="text-lg text-gray-700 leading-8 space-y-5">
 
               <p>
                 This AI-powered chatbot, <b>CapyBuddy</b>, was developed as part of a research study
@@ -284,7 +354,7 @@ export default function ChatbotPage() {
             {/* PURPOSE */}
             <h3 className="text-xl font-semibold mt-6 mb-2">Project Objectives</h3>
 
-            <ul className="list-disc ml-5 text-sm text-gray-700 space-y-1">
+            <ul className="list-disc ml-6 text-lg text-gray-700 space-y-3">
               <li>Develop a dataset focused on student emotional distress conversations</li>
               <li>Identify and fine-tune an optimal Large Language Model for empathetic responses</li>
               <li>Integrate empathy-aligned conversational behavior into the chatbot system</li>
@@ -375,7 +445,7 @@ export default function ChatbotPage() {
             </p>
 
             {/* HOTLINES LIST */}
-            <div className="space-y-4 text-sm">
+            <div className="space-y-5 text-lg">
 
               {/* SECTION TITLE */}
               <div className="text-lg font-bold text-gray-800 mt-6">

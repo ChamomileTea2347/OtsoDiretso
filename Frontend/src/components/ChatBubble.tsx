@@ -7,14 +7,17 @@ interface ChatBubbleProps {
 
 export default function ChatBubble({ message, sender = "bot" }: ChatBubbleProps) {
   const isUser = sender === "user";
+
   return (
-    <div className={`flex items-start ${isUser ? "justify-end" : "justify-start"}`}>
+    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-xs p-2 space-y-2 rounded text-xl ${
-          isUser ? "bg-blue-500 text-black" : "bg-white text-black"
+        className={`p-3 rounded-lg text-xl whitespace-pre-line break-words ${
+          isUser
+            ? "bg-blue-500 text-black max-w-xs"
+            : "bg-white text-black max-w-[75%]"
         }`}
       >
-        {message}
+        <p>{message}</p>
       </div>
     </div>
   );

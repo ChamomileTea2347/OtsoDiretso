@@ -16,18 +16,6 @@ app = FastAPI()
 def health():
     return {"status": "AI service working"}
 
-HOTLINES_TEXT = """
-    If you are in immediate danger, please contact:
-
-    National Crisis Hotline:
-    - 1553 (Nationwide)
-    - 0917-899-8727 (Globe/TM)
-    - 0966-351-4518 (Smart)
-
-    You are not alone. Please reach out for help immediately.
-    """
-
-
 
 class Message(BaseModel):
     message: str
@@ -52,10 +40,6 @@ def chat(data: Message):
         reply = response.json().get("reply", "I'm here to listen.")
     except httpx.HTTPError as e:
         raise HTTPException(status_code=502, detail=f"Model error: {str(e)}")
-
-    # ✅ ADD HOTLINES ONLY IF CRISIS
-    if risk_level == "crisis":
-        reply = f"{reply}\n\n{HOTLINES_TEXT}"
 
     return {
         "reply": reply,

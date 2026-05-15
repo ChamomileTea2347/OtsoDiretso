@@ -64,6 +64,7 @@ class ChatController extends Controller
         ]);
 
         $botReply = $aiResponse->json('reply') ?? 'Sorry, I could not process that.';
+        $riskLevel = $aiResponse->json('risk_level') ?? 'safe';
 
 
         // Save the bot's response to the database
@@ -76,6 +77,7 @@ class ChatController extends Controller
 
         return response()->json([
             'reply' => $botReply,
+            'risk_level' => $riskLevel,
         ]);
     }
 
